@@ -3,17 +3,36 @@ const addEmployeesBtn = document.querySelector('#add-employees-btn');
 
 // Collect employee data
 const collectEmployees = function() {
-  // TODO: Get user input to create and return an array of employee objects
+  let employees = [];
+  let addMore = true;
+
+  while (addMore) {
+    let firstName = prompt('Enter first name:');
+    let lastName = prompt('Enter last name:');
+    let salary = parseFloat(prompt('Enter salary:'));
+    if (isNaN(salary)) salary = 0;
+
+    employees.push({ firstName, lastName, salary });
+
+    addMore = confirm('Do you want to add another employee?');
+  }
+
+  return employees;
 }
 
 // Display the average salary
 const displayAverageSalary = function(employeesArray) {
-  // TODO: Calculate and display the average salary
+  let totalSalary = employeesArray.reduce((acc, employee) => acc + employee.salary, 0);
+  let averageSalary = totalSalary / employeesArray.length;
+  console.log(`Number of employees: ${employeesArray.length}`);
+  console.log(`Average salary: $${averageSalary.toFixed(2)}`);
 }
 
 // Select a random employee
 const getRandomEmployee = function(employeesArray) {
-  // TODO: Select and display a random employee
+  let randomIndex = Math.floor(Math.random() * employeesArray.length);
+  let randomEmployee = employeesArray[randomIndex];
+  console.log(`Random Employee: ${randomEmployee.firstName} ${randomEmployee.lastName}`);
 }
 
 /*
@@ -46,9 +65,9 @@ const displayEmployees = function(employeesArray) {
 
     const salaryCell = document.createElement("td");
     // Format the salary as currency
-    salaryCell.textContent = currentEmployee.salary.toLocaleString("en-US",{
-      style:"currency",
-      currency:"USD"
+    salaryCell.textContent = currentEmployee.salary.toLocaleString("en-US", {
+      style: "currency",
+      currency: "USD"
     });
 
     newTableRow.append(salaryCell);
@@ -68,7 +87,7 @@ const trackEmployeeData = function() {
 
   getRandomEmployee(employees);
 
-  employees.sort(function(a,b) {
+  employees.sort(function(a, b) {
     if (a.lastName < b.lastName) {
       return -1;
     } else {
